@@ -1,0 +1,144 @@
+@startuml
+
+title Mastermind documentView
+
+class Mastermind {
+   + play()
+   
+}
+
+Mastermind *--> View
+Mastermind *--> Game
+
+View *--> AttemptView
+View ..> RespondYesNoView
+
+View --> Game
+class View {
+  +interact()
+  +show()
+}
+AttemptView --> Game
+AttemptView ..> Message
+AttemptView *--> ProposedCombinationView
+AttemptView ..> SecretCombinationView
+
+SecretCombinationView --> Game
+ProposedCombinationView --> Game
+RespondYesNoView --> Game
+
+
+SecretCombinationView ..> Message
+ProposedCombinationView ..> Message
+ProposedCombinationView ..> GestorIO
+RespondYesNoView ..> Message
+
+class Game  {
+   +generateSecretCombination()
+   +countHits(indexAttempt)
+   +countMiddleHits(indexAttempt)
+   +setProposedCombinationAs(String combination)
+   +String getSecretCombination()
+   +boolean isWinnerAttempt(int indexAttempt)
+   +createNextAttempt()
+   +int getProposedCombinationLength()
+   +setProposedCombinationAsValid()
+   +String getCombination(int indexAttempt)
+   +String getCurrentCombination()
+   +setProposedCombinationAsNotValid()
+   +initAttempts()
+}
+Game *--> "10" Attempt
+Game *--> SecretCombination
+
+class AttemptView {
+   -game
+   + showHead(indexAttempt)
+   + showResult(indexAttempt)
+   +interact()
+}
+class SecretCombinationView {
+    -game
+    + show()
+    + showResult(indexAttempt)
+}
+class ProposedCombinationView {
+   -game
+   + readInput(): boolean
+   + show(indexAttempt)
+   +interact()
+}
+
+RespondYesNoView ..> GestorIO
+class RespondYesNoView {
+   -game
+   +boolean read()
+}
+
+abstract class Combination {
+   - String combination
+   getCombination()
+   addColor(String color)
+   setAs(String combination)
+}
+class SecretCombination {
+   - string[] colors
+   + generate()
+   + get(): String
+   +int countHits(ProposedCombination proposedCombination)
+   +int countMiddleHits(ProposedCombination proposedCombination)
+   + match(proposedCombination): boolean
+}
+
+class ProposedCombination {
+   -boolean valid
+   +set(String combination)
+   +setAsValid()
+   +setAsNotValid()
+   +isValid()
+}
+
+SecretCombination ..> ProposedCombination
+
+Combination <|-- SecretCombination
+Combination <|-- ProposedCombination
+
+class Attempt {
+   -index
+   -secretCombination
+   -proposedCombination
+   + Attempt(index, secretCombination)
+   + play()
+   + winner(): boolean
+   + setProposedCombination(String combination)
+   + setProposedCombinationAsValid()
+   + getCombinationAsString()
+   + setProposedCombinationAsNotValid()
+   + getCombinationObject()
+}
+
+Attempt *--> ProposedCombination
+Attempt --> SecretCombination
+
+enum Message {
+   - message;
+   +MAIN_TITLE("----- M A S T E R M I N D -----\n\n"),
+   +WON("won!!!"),
+   +LOST("lost. The combination is "),
+   +RESULT("You've "),
+   +RESUME("¿RESUME? S/n"),
+   +ATTEMP("Attempt(s)"),
+   +PROPOSE("Propose a combination: "),
+   +WRONG_LENGTH("Wrong proposed combination length"),
+   +WRONG_COLORS("Wrong colors, they must be: rbygop"),
+   +VALID_COLORS("rbygop"),
+   +HIDDEN_VIEW("xxxx"),
+   +EXCLAMATION(" !!!")
+   
+   +write()
+   +writeln()
+   +toString()
+}
+
+Message ..> GestorIO
+@enduml
