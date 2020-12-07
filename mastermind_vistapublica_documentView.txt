@@ -108,7 +108,6 @@ class Attempt {
    -secretCombination
    -proposedCombination
    + Attempt(index, secretCombination)
-   + play()
    + winner(): boolean
    + setProposedCombination(String combination)
    + setProposedCombinationAsValid()
