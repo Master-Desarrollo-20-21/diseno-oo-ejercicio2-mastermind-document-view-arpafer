@@ -1,15 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mastermind_documentview.models;
 
-/**
- *
- * @author Antonio
- */
 public abstract class Combination {
+
+    public static int MAX_LENGTH = 4;
     
     private String combination;
     
@@ -25,7 +18,7 @@ public abstract class Combination {
         this.combination += color;
     }
 
-    protected void setAs(String inString) {
-        this.combination = inString;
+    protected void setAs(String combination) {
+        this.combination = combination;
     }       
 }

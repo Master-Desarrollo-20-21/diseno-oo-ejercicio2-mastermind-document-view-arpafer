@@ -1,77 +1,79 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mastermind_documentview.models;
 
-/**
- *
- * @author Antonio
- */
 public class Game {
 
     private final int NUM_ATTEMPTS = 10;
     private Attempt[] attempts;
     private SecretCombination secretCombination;    
-    private int attemptIndex;
-    
-    public Game() {            
-        this.initAttempts();
-    }    
-    public int countHits(int index) {
-        return this.secretCombination.countHits(this.attempts[index].getCombinationObject());
-    }
-
-    public int countMiddleHits(int index) {
-        return this.secretCombination.countMiddleHits(this.attempts[index].getCombinationObject());
-    }
-    
-    public void setProposedCombinationAs(String combination) {
-        assert(combination != null);
-        this.attempts[this.attemptIndex].setProposedCombination(combination);
-    }
-
-    public void generateSecretCombination() {
+    private int countAttempt;
+        
+    public void init() {
+        this.attempts = new Attempt[this.NUM_ATTEMPTS];
+        this.secretCombination = new SecretCombination();   
         this.secretCombination.generate();
+        this.countAttempt = 0;
     }
-            
+     
+    public int countHits(int countAttempt) {
+        return this.secretCombination.countHits(this.attempts[countAttempt].getProposedCombination());
+    }
+
+    public int countMiddleHits(int countAttempt) {
+        return this.secretCombination.countMiddleHits(this.attempts[countAttempt].getProposedCombination());
+    }
+    
+    public void setProposedCombination(String combination) {
+        assert(combination != null);
+        this.attempts[this.countAttempt].setProposedCombination(combination);
+    }
+              
     public String getSecretCombination() {
         return this.secretCombination.getCombination();
     }
 
-    public boolean isWinnerAttempt(int index) {
-        return this.attempts[index].winner();
+    public boolean isWinnerAttempt(int countAttempt) {
+        return this.attempts[countAttempt].winner();
     }
     
-    public void createNextAttempt() {
-        this.attemptIndex++;
-        this.attempts[this.attemptIndex] = new Attempt(this.secretCombination);        
+    public void createAttempt() {        
+        assert(this.countAttempt < this.NUM_ATTEMPTS);
+        this.attempts[this.countAttempt] = new Attempt(this.secretCombination);            
+    }
+    public void incrementAttempt() {
+        this.countAttempt++;
+    }
+    
+    public int getCountAttempt() {
+        return this.countAttempt;
     }
 
     public int getProposedCombinationLength() {
-        return this.attempts[this.attemptIndex].getCombinationAsString().length();
+        return this.attempts[this.countAttempt].getCombination().length();
     }
 
-    public void setProposedCombinationAsValid() {
-        
-        this.attempts[this.attemptIndex].setProposedCombinationAsValid();
-    }
-
-    public String getCombination(int index) {
-        return this.attempts[index].getCombinationAsString();
-    }
-    public String getCurrentCombination() {
-        return this.attempts[this.attemptIndex].getCombinationAsString();
+    public void setProposedCombinationAsValid() {        
+        this.attempts[this.countAttempt].setProposedCombinationAsValid();
     }
 
     public void setProposedCombinationAsNotValid() {
-        this.attempts[this.attemptIndex].setProposedCombinationAsNotValid();
+        this.attempts[this.countAttempt].setProposedCombinationAsNotValid();
+    }
+    public boolean isProposedCombinationValid() {        
+        return this.attempts[this.countAttempt].isProposedCombinationValid();        
+    }
+     
+    public String getCombination(int countAttempt) {
+        return this.attempts[countAttempt].getCombination();
+    }
+    public String getCurrentCombination() {
+        return this.attempts[this.countAttempt].getCombination();
+    }
+      
+    public boolean terminated() {       
+        return this.attempts[this.countAttempt - 1].winner() || this.countAttempt >= this.NUM_ATTEMPTS;
     }
 
-    public void initAttempts() {
-        this.attempts = new Attempt[this.NUM_ATTEMPTS];
-        this.secretCombination = new SecretCombination();   
-        this.attemptIndex = -1;
-    }
+    public int getMaxCombinationLength() {
+        return Combination.MAX_LENGTH;
+    }   
 }

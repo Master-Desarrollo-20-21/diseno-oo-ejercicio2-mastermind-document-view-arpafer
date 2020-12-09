@@ -1,30 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mastermind_documentview.views;
+import mastermind_documentview.utils.GestorIO;
 
-import mastermind_documentview.utiles.GestorIO;
-import mastermind_documentview.models.Message;
-
-/**
- *
- * @author Antonio
- */
 public class RespondYesNoView {
-       
-    RespondYesNoView() {
-        
-    }
+              
+    private boolean respondYes;
     
-    public boolean interact() {
-        GestorIO console = new GestorIO();
-        Message.RESUME.write();
+    public RespondYesNoView() {
+        this.respondYes = false;
+    }
+    public boolean affirmative() {
+        return this.respondYes;
+    }
+    public void interact(String message) {
+        GestorIO console = new GestorIO();        
+        console.out(message);
         String respond = console.inString();
-        if (respond.equals("S") || respond.equals("s"))
-            return true;
-        else 
-            return false;
+        this.respondYes = respond.equals("S") || respond.equals("s");            
     }
 }

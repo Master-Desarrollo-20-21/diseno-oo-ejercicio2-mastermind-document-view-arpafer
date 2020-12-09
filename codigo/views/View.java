@@ -1,63 +1,48 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mastermind_documentview.views;
-
 import mastermind_documentview.models.Game;
-import mastermind_documentview.models.Message;
 
-/**
- *
- * @author Antonio
- */
 public class View {
 
-    private AttemptView attemptView;        
-    
-    private Game game; 
-    private final int NUM_ATTEMPTS = 10;
+    private AttemptView attemptView;           
+    private Game game;     
     
     public View(Game game) {
        this.game = game;
-       this.attemptView = new AttemptView(game);              
+       this.attemptView = new AttemptView(game);                     
     }
-
-    public void show() {
+   
+    public void interact() {        
         Message.MAIN_TITLE.writeln();
-    }
-
-    public void interact() {
-        
+        SecretCombinationView secretCombinationView = new SecretCombinationView(game);        
         do {
-            this.game.initAttempts();
-            this.game.generateSecretCombination();
-            int numAttempt = 0;                               
-            do {      
-                this.game.createNextAttempt();
-                this.attemptView.showHead(numAttempt);             
-                this.showAcumulatedResults(numAttempt);                
-                this.attemptView.interact();
-                numAttempt++;
-            } while (!this.game.isWinnerAttempt(numAttempt - 1) && numAttempt < this.NUM_ATTEMPTS);            
-            this.showResult(numAttempt);
-        } while (this.wantOtherGame());
+            this.game.init();   
+            this.attemptView.showAttemptCount(this.game.getCountAttempt());             
+            secretCombinationView.showEncoded();
+            do {                                                    
+                this.game.createAttempt();
+                this.attemptView.interact();                
+                this.attemptView.showAttemptCount(this.game.getCountAttempt() + 1);             
+                secretCombinationView.showEncoded();
+                this.game.incrementAttempt();
+                this.showAcumulatedResults(this.game.getCountAttempt());                  
+            } while (!this.game.terminated());            
+            this.showGameResult(this.game.getCountAttempt());
+        } while (this.resume());
     }
     
-    private boolean wantOtherGame() {
+    private boolean resume() {
         RespondYesNoView respond = new RespondYesNoView();
-        return respond.interact();
+        respond.interact(Message.RESUME.toString());
+        return respond.affirmative();
     }
 
-    private void showResult(int numAttempt) {
-        
+    private void showGameResult(int numAttempt) {        
         String result = "";
-        if (this.game.isWinnerAttempt(numAttempt - 1))
+        if (this.game.isWinnerAttempt(numAttempt - 1)) {
             result = Message.WON.toString();
-        else
+        } else {
             result = Message.LOST + this.game.getSecretCombination() + Message.EXCLAMATION;
-                
+        }                
         Message.RESULT.writeln(result);
     }
 

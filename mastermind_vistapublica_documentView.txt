@@ -16,7 +16,6 @@ View ..> RespondYesNoView
 View --> Game
 class View {
   +interact()
-  +show()
 }
 AttemptView --> Game
 AttemptView ..> Message
@@ -34,45 +33,51 @@ ProposedCombinationView ..> GestorIO
 RespondYesNoView ..> Message
 
 class Game  {
+   +init()
    +generateSecretCombination()
-   +countHits(indexAttempt)
-   +countMiddleHits(indexAttempt)
-   +setProposedCombinationAs(String combination)
+   +countHits(countAttempt)
+   +countMiddleHits(int countAttempt)
+   +setProposedCombination(String combination)
    +String getSecretCombination()
-   +boolean isWinnerAttempt(int indexAttempt)
-   +createNextAttempt()
+   +boolean isWinnerAttempt(int countAttempt)
+   +createAttempt()
+   +incrementAttempt()
+   +int getCountAttempt()
    +int getProposedCombinationLength()
    +setProposedCombinationAsValid()
-   +String getCombination(int indexAttempt)
-   +String getCurrentCombination()
    +setProposedCombinationAsNotValid()
-   +initAttempts()
+   +boolean isProposedCombinationValid()
+   +String getCombination(int countAttempt)
+   +String getCurrentCombination()
+   +boolean terminated()
+   +int getMaxCombinationLength()
+   
 }
 Game *--> "10" Attempt
 Game *--> SecretCombination
 
 class AttemptView {
    -game
-   + showHead(indexAttempt)
-   + showResult(indexAttempt)
+   + showAttemptCount(countAttempt)
+   + showResult(countAttempt)
    +interact()
 }
 class SecretCombinationView {
     -game
     + show()
-    + showResult(indexAttempt)
+    + showMatchResult(countAttempt)
 }
 class ProposedCombinationView {
    -game
-   + readInput(): boolean
-   + show(indexAttempt)
+   + readInput()
+   + show(countAttempt)
    +interact()
 }
 
 RespondYesNoView ..> GestorIO
 class RespondYesNoView {
-   -game
-   +boolean read()
+   +interact()
+   +boolean affirmative()
 }
 
 abstract class Combination {
@@ -104,16 +109,17 @@ Combination <|-- SecretCombination
 Combination <|-- ProposedCombination
 
 class Attempt {
-   -index
    -secretCombination
    -proposedCombination
-   + Attempt(index, secretCombination)
-   + winner(): boolean
+   + Attempt(secretCombination)
+   + boolean winner()
    + setProposedCombination(String combination)
    + setProposedCombinationAsValid()
-   + getCombinationAsString()
    + setProposedCombinationAsNotValid()
+   + String getCombination()
    + getCombinationObject()
+   + boolean isProposedCombinationValid()
+   + ProposedCombination getProposedCombination()
 }
 
 Attempt *--> ProposedCombination
@@ -131,7 +137,7 @@ enum Message {
    +WRONG_LENGTH("Wrong proposed combination length"),
    +WRONG_COLORS("Wrong colors, they must be: rbygop"),
    +VALID_COLORS("rbygop"),
-   +HIDDEN_VIEW("xxxx"),
+   +SECRET_COMBINATION_HIDDEN("xxxx"),
    +EXCLAMATION(" !!!")
    
    +write()

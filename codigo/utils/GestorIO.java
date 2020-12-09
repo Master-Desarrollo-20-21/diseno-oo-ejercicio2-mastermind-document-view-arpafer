@@ -1,4 +1,4 @@
-package mastermind_documentview.utiles;
+package mastermind_documentview.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

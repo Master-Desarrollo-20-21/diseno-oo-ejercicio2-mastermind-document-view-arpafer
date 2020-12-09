@@ -1,20 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mastermind_documentview.models;
 
-/**
- *
- * @author Antonio
- */
 public class ProposedCombination extends Combination {
                 
     private boolean valid;
 
     public ProposedCombination() {
-        this.valid = true;
+        this.valid = false;
     }
 
     public ProposedCombination(String aux) {

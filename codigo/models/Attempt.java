@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mastermind_documentview.models;
 
-/**
- *
- * @author Antonio
- */
 public class Attempt {    
     private SecretCombination secretCombination;
     private ProposedCombination proposedCombination;
@@ -30,16 +21,20 @@ public class Attempt {
     public void setProposedCombinationAsValid() {
         this.proposedCombination.setAsValid();
     }
-
-    public String getCombinationAsString() {
-        return this.proposedCombination.getCombination();
-    }
-
+    
     public void setProposedCombinationAsNotValid() {
         this.proposedCombination.setAsNotValid();
     }
 
-    public ProposedCombination getCombinationObject() {
+    public String getCombination() {
+        return this.proposedCombination.getCombination();
+    }
+       
+    public boolean isProposedCombinationValid() {
+        return this.proposedCombination.isValid();
+    }
+
+    public ProposedCombination getProposedCombination() {
         return this.proposedCombination;
     }
    
