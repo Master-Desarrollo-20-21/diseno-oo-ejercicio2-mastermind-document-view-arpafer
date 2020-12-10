@@ -12,8 +12,9 @@ Mastermind *--> Game
 
 View *--> AttemptView
 View ..> RespondYesNoView
-
 View --> Game
+View ..> Message
+
 class View {
   +interact()
 }
