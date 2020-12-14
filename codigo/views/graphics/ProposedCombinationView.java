@@ -1,4 +1,5 @@
-package mastermind_documentview.views;
+package mastermind_documentview.views.graphics;
+import mastermind_documentview.views.console.*;
 import mastermind_documentview.models.Game;
 import mastermind_documentview.utils.GestorIO;
 
@@ -10,14 +11,12 @@ public class ProposedCombinationView {
         this.game = game;
     }
                     
-    protected void show(int countAttempt) {
-        GestorIO console = new GestorIO();
-        console.out(this.game.getCombination(countAttempt));
+    protected void show(int countAttempt) {      
+      RenderDevice.getInstance().write(this.game.getCombination(countAttempt));
     }
     protected void readInput() {
-        GestorIO console = new GestorIO();
-        String aux = console.inString();
-        this.game.setProposedCombination(aux);
+      String combination = RenderDevice.getInstance().read();
+      this.game.setProposedCombination(combination);
     }
     public void interact() {        
         Message.PROPOSE.write();

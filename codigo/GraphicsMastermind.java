@@ -1,16 +1,16 @@
 package mastermind_documentview;
 
 import mastermind_documentview.models.Game;
-import mastermind_documentview.views.View;
+import mastermind_documentview.views.graphics.GraphicsView;
 
-public class Mastermind {
+public class GraphicsMastermind {
     
     private Game game;
-    private View view;
+    private GraphicsView view;
     
-    public Mastermind() {       
+    public GraphicsMastermind() {       
         this.game = new Game();
-        this.view = new View(game);
+        this.view = new GraphicsView(game);
     }
 
     public void play() {                
@@ -18,7 +18,7 @@ public class Mastermind {
     }    
     
     public static void main(String[] args) {            
-        Mastermind mastermind = new Mastermind();
+        GraphicsMastermind mastermind = new GraphicsMastermind();
         mastermind.play();               
     }    
 }

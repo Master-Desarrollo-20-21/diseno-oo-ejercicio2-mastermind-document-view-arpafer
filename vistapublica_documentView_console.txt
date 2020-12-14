@@ -30,8 +30,20 @@ RespondYesNoView --> Game
 
 SecretCombinationView ..> Message
 ProposedCombinationView ..> Message
-ProposedCombinationView ..> GestorIO
-RespondYesNoView ..> Message
+ProposedCombinationView ..> RenderDevice
+RespondYesNoView ..> RenderDevice
+RenderDevice *--> GestorIO
+
+class RenderDevice {
+  -static RenderDevice renderDevice
+  -GestorIO console
+  
+  +static RenderDevice getInstance()
+  +write(String message)
+  +writeln(String message)
+  +read()
+  +readRespond(String message)
+}
 
 class Game  {
    +init()
@@ -75,7 +87,6 @@ class ProposedCombinationView {
    +interact()
 }
 
-RespondYesNoView ..> GestorIO
 class RespondYesNoView {
    +interact()
    +boolean affirmative()
@@ -146,5 +157,5 @@ enum Message {
    +toString()
 }
 
-Message ..> GestorIO
+Message ..> RenderDevice
 @enduml

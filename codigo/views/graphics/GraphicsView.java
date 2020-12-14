@@ -1,12 +1,14 @@
-package mastermind_documentview.views;
+package mastermind_documentview.views.graphics;
+import javax.swing.JFrame;
+import mastermind_documentview.views.console.*;
 import mastermind_documentview.models.Game;
 
-public class View {
+public class GraphicsView extends JFrame {
 
-    private AttemptView attemptView;           
-    private Game game;     
+    private Game game;
+    private AttemptView attemptView;                   
     
-    public View(Game game) {
+    public GraphicsView(Game game) {
        this.game = game;
        this.attemptView = new AttemptView(game);                     
     }

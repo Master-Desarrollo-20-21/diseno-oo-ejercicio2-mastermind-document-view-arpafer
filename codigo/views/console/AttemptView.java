@@ -1,15 +1,13 @@
-package mastermind_documentview.views;
+package mastermind_documentview.views.console;
 import mastermind_documentview.models.Game;
-import mastermind_documentview.views.ProposedCombinationView;
-import mastermind_documentview.views.SecretCombinationView;
 
 public class AttemptView {
-
+    
     private Game game;
-    ProposedCombinationView proposedCombinationView;
+    private ProposedCombinationView proposedCombinationView;
     
     public AttemptView(Game game) {
-       this.game = game;    
+       this.game = game;
     }
                
     public void interact() {

@@ -1,4 +1,4 @@
-package mastermind_documentview.views;
+package mastermind_documentview.views.console;
 import mastermind_documentview.utils.GestorIO;
 
 public class RespondYesNoView {
@@ -11,10 +11,8 @@ public class RespondYesNoView {
     public boolean affirmative() {
         return this.respondYes;
     }
-    public void interact(String message) {
-        GestorIO console = new GestorIO();        
-        console.out(message);
-        String respond = console.inString();
+    public void interact(String message) {     
+        String respond = RenderDevice.getInstance().readRespond(message);
         this.respondYes = respond.equals("S") || respond.equals("s");            
     }
 }

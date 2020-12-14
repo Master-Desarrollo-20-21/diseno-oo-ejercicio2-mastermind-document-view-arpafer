@@ -1,4 +1,4 @@
-package mastermind_documentview.views;
+package mastermind_documentview.views.console;
 import mastermind_documentview.models.Game;
 
 public class SecretCombinationView  {
